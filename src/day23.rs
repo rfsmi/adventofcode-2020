@@ -1,7 +1,7 @@
 use std::{
     cell::RefCell,
     fmt::Display,
-    iter::from_fn,
+    iter::successors,
     rc::{Rc, Weak},
 };
 
@@ -21,25 +21,11 @@ impl PartialEq for Cup {
 }
 
 fn next_cups(cup: Rc<RefCell<Cup>>) -> impl Iterator<Item = Rc<RefCell<Cup>>> {
-    let mut maybe_cup = Some(cup);
-    from_fn(move || {
-        let Some(cup) = maybe_cup.take() else {
-            return None;
-        };
-        maybe_cup = cup.borrow().next.upgrade();
-        Some(cup)
-    })
+    successors(Some(cup), |cup| cup.borrow().next.upgrade())
 }
 
 fn dest_cups(cup: Rc<RefCell<Cup>>) -> impl Iterator<Item = Rc<RefCell<Cup>>> {
-    let mut maybe_cup = Some(cup);
-    from_fn(move || {
-        let Some(cup) = maybe_cup.take() else {
-            return None;
-        };
-        maybe_cup = cup.borrow().dest.upgrade();
-        Some(cup)
-    })
+    successors(Some(cup), |cup| cup.borrow().dest.upgrade())
 }
 
 #[derive(Debug)]
