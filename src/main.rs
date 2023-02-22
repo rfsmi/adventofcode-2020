@@ -10,9 +10,9 @@ struct Args {
 }
 
 utils::make_runner!(
-    24+,
-    23+,
     22+,
+    23+,
+    24+,
     25,
 );
 
