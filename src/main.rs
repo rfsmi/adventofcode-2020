@@ -10,11 +10,11 @@ struct Args {
 }
 
 utils::make_runner!(
+    21+,
     22+,
     23+,
     24+,
     25,
-    21,
 );
 
 fn main() {
